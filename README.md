@@ -1,5 +1,7 @@
 # Vigia de Preço
 
+**Aviso importante** baixa compatibilidade com o mercado livre
+
 O **Vigia de Preço** é uma aplicação web em Python/Flask para monitorar preços de produtos em sites de e-commerce, salvar o histórico em banco SQLite e enviar um e-mail quando houver queda de preço maior ou igual a **8%**.
 
 O projeto foi organizado com arquitetura **MVC**, adaptada para Flask, e separado também em **Services** e **Repositories** para manter as responsabilidades bem divididas.
