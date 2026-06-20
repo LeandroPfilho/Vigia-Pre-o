@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mb-4">
+    <h1 class="h3 mb-1">Alertas enviados</h1>
+    <p class="text-muted mb-0">Registro de quedas de preço detectadas.</p>
+</div>
+
+<div class="card shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Preço anterior</th>
+                <th>Preço atual</th>
+                <th>Queda</th>
+                <th>Data de envio</th>
+                <th>Tipo</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for alerta in alertas %}
+                <tr>
+                    <td>{{ alerta.produto.nome }}</td>
+                    <td>{{ alerta.preco_anterior|moeda }}</td>
+                    <td>{{ alerta.preco_atual|moeda }}</td>
+                    <td>{{ alerta.percentual_queda }}%</td>
+                    <td>{{ alerta.enviado_em.strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td>{{ alerta.tipo_alerta }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="6" class="text-center text-muted py-4">Nenhum alerta enviado.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

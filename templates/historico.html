@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h3 mb-1">Histórico de Preços</h1>
+        <p class="text-muted mb-0">
+            {% if produto %}Produto: {{ produto.nome }}{% else %}Todas as verificações registradas.{% endif %}
+        </p>
+    </div>
+    <a class="btn btn-outline-secondary" href="{{ url_for('produto.listar') }}">Voltar</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Preço registrado</th>
+                <th>Data da verificação</th>
+                <th>Status</th>
+                <th>Mensagem de erro</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in historicos %}
+                <tr>
+                    <td>{{ item.produto.nome }}</td>
+                    <td>{{ item.preco|moeda }}</td>
+                    <td>{{ item.data_verificacao.strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td><span class="badge status-badge">{{ item.status_verificacao }}</span></td>
+                    <td class="text-muted small">{{ item.mensagem_erro or '-' }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="5" class="text-center text-muted py-4">Nenhum histórico registrado.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

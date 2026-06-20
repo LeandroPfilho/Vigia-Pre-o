@@ -1,0 +1,30 @@
+body {
+    background: #f6f7fb;
+}
+
+.card {
+    border: 0;
+    border-radius: 1rem;
+}
+
+.table th {
+    font-size: .85rem;
+    color: #6c757d;
+    font-weight: 600;
+}
+
+.status-badge {
+    background: #eef2ff;
+    color: #273c75;
+    border: 1px solid #dbe3ff;
+    font-weight: 600;
+}
+
+.btn-group form .btn {
+    border-radius: 0;
+}
+
+.btn-group form:first-child .btn {
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+        <h1 class="h3 mb-1">Produtos</h1>
+        <p class="text-muted mb-0">Gerencie os produtos monitorados.</p>
+    </div>
+    <a class="btn btn-success" href="{{ url_for('produto.novo') }}">Novo Produto</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Preço atual</th>
+                <th>Último preço</th>
+                <th>Menor histórico</th>
+                <th>Status</th>
+                <th>Estratégia</th>
+                <th>Última verificação</th>
+                <th class="text-end">Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for produto in produtos %}
+                <tr class="{% if not produto.ativo %}table-light text-muted{% endif %}">
+                    <td>
+                        <div class="fw-semibold">{{ produto.nome }}</div>
+                        <a href="{{ produto.url }}" target="_blank" class="small text-decoration-none">abrir produto</a>
+                    </td>
+                    <td>{{ produto.preco_atual|moeda }}</td>
+                    <td>{{ produto.ultimo_preco_registrado|moeda }}</td>
+                    <td>{{ produto.menor_preco_historico|moeda }}</td>
+                    <td><span class="badge status-badge">{{ produto.status }}</span></td>
+                    <td>{{ produto.estrategia_coleta }}</td>
+                    <td>{{ produto.data_ultima_verificacao.strftime('%d/%m/%Y %H:%M') if produto.data_ultima_verificacao else '-' }}</td>
+                    <td class="text-end">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a class="btn btn-outline-secondary" href="{{ url_for('produto.editar', produto_id=produto.id) }}">Editar</a>
+                            <a class="btn btn-outline-info" href="{{ url_for('historico.listar_por_produto', produto_id=produto.id) }}">Histórico</a>
+                            <form method="post" action="{{ url_for('monitoramento.verificar_produto', produto_id=produto.id) }}" class="d-inline">
+                                <button class="btn btn-outline-primary" {% if not produto.ativo %}disabled{% endif %}>Verificar</button>
+                            </form>
+                            {% if produto.ativo %}
+                                <form method="post" action="{{ url_for('produto.desativar', produto_id=produto.id) }}" class="d-inline">
+                                    <button class="btn btn-outline-warning">Desativar</button>
+                                </form>
+                            {% else %}
+                                <form method="post" action="{{ url_for('produto.ativar', produto_id=produto.id) }}" class="d-inline">
+                                    <button class="btn btn-outline-success">Ativar</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="8" class="text-center text-muted py-4">Nenhum produto cadastrado.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

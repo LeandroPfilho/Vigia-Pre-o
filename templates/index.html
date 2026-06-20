@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+        <h1 class="h3 mb-1">Dashboard</h1>
+        <p class="text-muted mb-0">Resumo dos produtos monitorados e alertas enviados.</p>
+    </div>
+    <form method="post" action="{{ url_for('monitoramento.verificar_todos') }}">
+        <button class="btn btn-primary">Verificar todos agora</button>
+    </form>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <div class="text-muted small">Produtos cadastrados</div>
+                <div class="display-6">{{ dados.total_produtos }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <div class="text-muted small">Produtos ativos</div>
+                <div class="display-6">{{ dados.total_ativos }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <div class="text-muted small">Alertas enviados</div>
+                <div class="display-6">{{ dados.total_alertas }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <div class="text-muted small">Produtos com erro</div>
+                <div class="display-6">{{ dados.produtos_com_erro }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white fw-semibold">Últimos produtos verificados</div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Preço</th>
+                        <th>Status</th>
+                        <th>Última verificação</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for produto in dados.ultimos_produtos %}
+                        <tr>
+                            <td>{{ produto.nome }}</td>
+                            <td>{{ produto.preco_atual|moeda }}</td>
+                            <td><span class="badge status-badge">{{ produto.status }}</span></td>
+                            <td>{{ produto.data_ultima_verificacao.strftime('%d/%m/%Y %H:%M') if produto.data_ultima_verificacao else '-' }}</td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="4" class="text-center text-muted py-4">Nenhuma verificação ainda.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white fw-semibold">Últimos alertas enviados</div>
+            <div class="list-group list-group-flush">
+                {% for alerta in dados.ultimos_alertas %}
+                    <div class="list-group-item">
+                        <div class="fw-semibold">{{ alerta.produto.nome }}</div>
+                        <div class="small text-muted">
+                            De {{ alerta.preco_anterior|moeda }} para {{ alerta.preco_atual|moeda }}
+                            — queda de {{ alerta.percentual_queda }}%
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="list-group-item text-muted">Nenhum alerta enviado ainda.</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
