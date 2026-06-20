@@ -34,7 +34,13 @@
                     <td>{{ produto.ultimo_preco_registrado|moeda }}</td>
                     <td>{{ produto.menor_preco_historico|moeda }}</td>
                     <td><span class="badge status-badge">{{ produto.status }}</span></td>
-                    <td>{{ produto.estrategia_coleta }}</td>
+                    <td>
+                        {% if produto.estrategia_coleta == 'auto' or produto.seletor_css == 'auto' %}
+                            <span class="badge text-bg-success">simples/auto</span>
+                        {% else %}
+                            <span class="badge text-bg-secondary">{{ produto.estrategia_coleta }}</span>
+                        {% endif %}
+                    </td>
                     <td>{{ produto.data_ultima_verificacao.strftime('%d/%m/%Y %H:%M') if produto.data_ultima_verificacao else '-' }}</td>
                     <td class="text-end">
                         <div class="btn-group btn-group-sm" role="group">

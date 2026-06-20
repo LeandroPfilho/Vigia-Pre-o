@@ -45,10 +45,10 @@ def cadastrar_produtos_teste():
 
     produtos = [
         {
-            "nome": "Produto Teste HTML",
+            "nome": "Produto Teste Automático",
             "url": "https://example.com/produto-teste",
-            "seletor_css": ".preco",
-            "estrategia_coleta": "beautifulsoup",
+            "seletor_css": "auto",
+            "estrategia_coleta": "auto",
             "status": "ativo",
             "ativo": True,
         },

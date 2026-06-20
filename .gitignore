@@ -1,31 +1,48 @@
 .env
+.env.*
+# Virtual envs
 venv/
-__pycache__/
-*.pyc
-*.db
-logs/
-.DS_Store
-.instance/
-instance/
-.pytest_cache/
-.vscode/
+.venv/
+env/
 
-# Recommended additions
+# Byte-compiled / cache
+__pycache__/
 *.py[cod]
 *.pyo
-*.pyd
-env/
-.venv/
-pip-wheel-metadata/
+
+# Databases
+*.db
+*.sqlite3
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Flask / instance
+.instance/
+instance/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Editors/IDEs
+.vscode/
+.idea/
+
+# Build / packaging
 build/
 dist/
 *.egg-info/
 .eggs/
-*.egg
-htmlcov/
-.coverage
-.env.*
-.idea/
-*.log
-*.sqlite3
-Thumbs.db
+pip-wheel-metadata/
+
+# Misc
+.mypy_cache/
+.ropeproject/
+coverage.xml

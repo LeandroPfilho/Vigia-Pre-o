@@ -403,3 +403,65 @@ O projeto também cria produtos de teste automaticamente caso o banco esteja vaz
 - Não colete dados pessoais de usuários.
 - Não faça requisições em massa.
 - Sempre que possível, use APIs oficiais.
+
+---
+
+## Modos de cadastro: simples e avançado
+
+Esta versão possui dois modos para cadastrar produtos.
+
+### Modo simples
+
+O modo simples foi criado para pessoas sem conhecimento técnico.
+
+Fluxo de uso:
+
+1. Acesse **Produtos > Novo Produto**;
+2. Escolha **Modo simples**;
+3. Informe o nome do produto;
+4. Cole o link do produto;
+5. Clique em **Detectar preço**;
+6. Escolha o preço correto entre as opções encontradas;
+7. Clique em **Salvar**.
+
+Nesse modo, o sistema usa a estratégia `auto`. Ele tenta encontrar o preço sozinho usando:
+
+- dados estruturados JSON-LD;
+- meta tags de produto;
+- elementos comuns de preço;
+- textos que parecem preço, como `R$ 419,00`.
+
+Se o botão de detecção não encontrar preço, ainda é possível salvar no modo simples. Na verificação manual ou automática, o sistema tentará detectar novamente.
+
+### Modo avançado
+
+O modo avançado mantém o funcionamento técnico original.
+
+Use quando quiser informar manualmente:
+
+- seletor CSS;
+- estratégia `beautifulsoup`;
+- estratégia `selenium`;
+- estratégia `api`.
+
+Exemplo de seletor CSS:
+
+```text
+.andes-money-amount__fraction
+```
+
+Exemplo para API, usando caminho JSON:
+
+```text
+produto.preco
+```
+
+### Quando usar cada modo?
+
+Use **modo simples** quando o usuário só souber colar o link do produto.
+
+Use **modo avançado** quando o modo simples não detectar o preço corretamente, quando o site carregar o preço de forma diferente ou quando você souber exatamente qual seletor CSS/API usar.
+
+### Observação importante
+
+A detecção automática facilita o uso, mas não garante funcionamento em todos os sites. Alguns e-commerces podem mudar o HTML, usar JavaScript pesado, bloquear automação ou exibir CAPTCHA. O projeto não tenta burlar proteções, login, CAPTCHA ou bloqueios.
